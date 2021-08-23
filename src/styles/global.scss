@@ -94,7 +94,16 @@ small {
 .inputField {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap:20px;
+  grid-gap: 20px;
+}
+.LandingInputsCard{
+    position: relative
+}
+.deleteInput {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  padding: 3px 11px;
 }
 
 .kTable {

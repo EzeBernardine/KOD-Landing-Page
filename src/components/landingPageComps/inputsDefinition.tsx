@@ -26,6 +26,7 @@ export default function InputsDefinition() {
   const [game, setGame] = useState("");
   const [playAmount, setPlayAmount] = useState(0);
   const [redirectUrl, setRedirectUrl] = useState("");
+  const [webHookUrl, setWebHookUrl] = useState("");
   const [interactionButtonText, setInteractionButtonText] = useState("");
   const [bgTextMain, setBgTextMain] = useState("");
   const [bgTextSub, setBgTextSub] = useState("");
@@ -89,7 +90,7 @@ export default function InputsDefinition() {
       setInputs(
         Object.keys(landingPageData.gameEndProps.inputs).map((item: any) => ({
           label: item,
-          value: landingPageData.gameEndProps.inputs[item],
+          key: landingPageData.gameEndProps.inputs[item],
         }))
       );
       setInputSubmitButtonText(
@@ -99,6 +100,7 @@ export default function InputsDefinition() {
     }
     getGames();
     getLedgers();
+    console.log(authInfo?.clientId, 'authInfo?.clientId')
   }, []);
 
   useEffect(() => {
@@ -155,7 +157,7 @@ export default function InputsDefinition() {
   };
 
   const addToInput = () => {
-    setInputs([...inputs, { label: "", value: "" }]);
+    setInputs([...inputs, { label: "", key: "" }]);
   };
 
   return (
@@ -210,6 +212,15 @@ export default function InputsDefinition() {
           />
         </FormGroup>
 
+        <FormGroup label="Data Collection Webhook" htmlFor="">
+          <Input
+            value={webHookUrl}
+            onChange={(e) => setWebHookUrl(e.target.value)}
+            placeholder="Enter data collection url"
+            required={false}
+          />
+        </FormGroup>
+
         <div className="grid grid-2 gap-2">
           <label htmlFor="">Does this page require a reward/goal?</label>
           <input
@@ -223,6 +234,7 @@ export default function InputsDefinition() {
         </div>
       </div>
       <Divider className="dividerCustom" />
+
       <div className={styles.header}>
         <h3>Define your form inputs</h3>
         {/* <p>You can choose up to 4 brand colour that sooth you</p> */}
@@ -231,7 +243,9 @@ export default function InputsDefinition() {
       <div className="spacer-10" />
       {inputs.map((item: any, i: number) => (
         <div key={i} className="LandingInputsCard">
-          <Button onClick={() => removeInput(i)}>Delete</Button>
+          <Button onClick={() => removeInput(i)} className="deleteInput">
+            Delete
+          </Button>
           <FormGroup label={`Input${i + 1} Label`} htmlFor="">
             <Input
               value={item.label}
@@ -243,10 +257,10 @@ export default function InputsDefinition() {
           </FormGroup>
           <FormGroup label={`Input${i + 1} Value`} htmlFor="">
             <Input
-              value={item.value}
-              name="value"
+              value={item.key}
+              name="key"
               onChange={(e: any) => changeInputs(e, i)}
-              placeholder="enter input value"
+              placeholder="enter input key"
               required
             />
           </FormGroup>

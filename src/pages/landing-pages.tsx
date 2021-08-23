@@ -23,7 +23,7 @@ const LandingPages: React.FC = () => {
         <Breadcrumb
           onNavigate={(e) => routeTo(e, history)}
           items={[
-            { title: "SETTINGS", link: "/settings" },
+            { title: "LANDING PAGE", link: "/landing-page" },
             { title: "LANDING PAGES", link: "" },
           ]}
         />

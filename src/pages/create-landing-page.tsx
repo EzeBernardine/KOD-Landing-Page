@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { Store } from "../state-management/storeComponent";
 import { actionTypes } from "../state-management/actions";
 import { colors } from "../interfaces/data";
-// import { LandingPagePreview } from "../components/landingPagePreview";
+import { LandingPagePreview } from "../components/landingPagePreview";
 import InputsDefinition from "../components/landingPageComps/inputsDefinition";
 
 const CreateLandingPage = () => {
@@ -19,7 +19,6 @@ const CreateLandingPage = () => {
     state: {
       landingPageData,
       isOnboarding,
-      // baseUrls: { baseUrl },
     },
     dispatch,
   }: any = useContext(Store);
@@ -93,14 +92,14 @@ const CreateLandingPage = () => {
           </form>
           <div className="spacer-20" />
         </div>
-        <div className={styles.right}>
+        {/* <div className={styles.right}>
           <br />
           <h1>Preview Landing Page</h1>
           <br />
-          {/* <LandingPagePreview /> */}
+          <LandingPagePreview />
           <br />
           <br />
-        </div>
+        </div> */}
       </div>
     </div>
   );

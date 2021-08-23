@@ -1,0 +1,180 @@
+@import "../styles/variables";
+
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(#{$mainHeight} - #{$headerLayoutHeight});
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.process {
+  margin: 3rem auto 6rem;
+}
+
+.processCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .inner {
+    width: 9rem;
+    height: 9rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $greyLightColor;
+    margin-bottom: 10px;
+    img {
+      width: 50px;
+    }
+  }
+}
+
+.customize {
+  .left {
+    max-width: calc(100% - 40%);
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
+  .right {
+    flex: 1;
+    background-color: $greyLightColor;
+    position: fixed;
+    width: 40%;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header {
+    p {
+      max-width: 500px;
+    }
+  }
+}
+
+.uploadError {
+  color: $dangerColor;
+}
+
+.uploadGrid {
+  display: flex;
+
+  .imageCover {
+    margin-left: 20px;
+    width: 200px;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+.uploadCustom {
+  width: 100%;
+  height: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $essentialColor;
+  border-radius: 10px;
+  border: 1px dashed darken($essentialColor, 10%);
+  cursor: pointer;
+}
+
+.colorPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $greyLightColor;
+  padding: 10px;
+  border-radius: 6px;
+  input {
+    width: 100%;
+    height: 80px;
+    border: none;
+    background: transparent;
+    outline: none;
+  }
+}
+
+.fontCard {
+  padding: 20px;
+  border: 1px solid $greyLightColor;
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s ease;
+
+  &:hover {
+    border-color: $primaryColor;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(40%, -30%);
+  }
+}
+
+.singleInput {
+  min-width: 500px;
+}
+
+.dataDef {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    max-width: 500px;
+    text-align: center;
+  }
+
+  .addButton {
+    align-self: flex-end;
+  }
+}
+
+.newData {
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: calc(#{$mainHeight} - #{$headerLayoutHeight});
+}
+
+.dataTypeChoice {
+  min-width: 700px;
+}
+
+.dataSelectionCard {
+  padding: 20px;
+  text-align: left;
+  border-radius: 6px;
+  background-color: lighten($greyLightColor, 5%);
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  &.active {
+    background-color: $primaryColor;
+    * {
+      color: $textWhiteColor;
+    }
+    p {
+      color: rgba($textWhiteColor, 0.7);
+    }
+  }
+
+  p {
+    text-align: left;
+  }
+}

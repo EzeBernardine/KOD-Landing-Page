@@ -1,9 +1,10 @@
-import { tokenStore } from "./../interfaces/data";
-import { CLIENT_PAGE_URL, LANDING_PAGE_URL } from "./urls";
-import { Alert } from "kodobe-react-components";
 
+
+import { tokenStore } from "./../interfaces/data";
 import { ObjectLiteral } from "./../interfaces/index";
 import Axios from "axios";
+import { CLIENT_PAGE_URL, LANDING_PAGE_URL } from "./urls";
+import { Alert } from "kodobe-react-components";
 
 type AxiosProps = {
   method: string;
@@ -47,6 +48,16 @@ export const axiosHandler = ({
     alert(`method ${methodType} is not accepted or data is not an object`);
   }
 };
+
+export const routeTo = (link: string, history?: any) => {
+    if (!history) {
+      window.location.href = link;
+    } else {
+      history.push(link);
+    }
+    // eslint-disable-next-line no-restricted-globals
+    parent.postMessage(link, "*");
+  };
 
 export const errorHandler = (err: ObjectLiteral, defaulted = false) => {
   if (defaulted) {
@@ -110,15 +121,21 @@ export const logout = (AUTH_URL: string) => {
   redirectToLogin(AUTH_URL);
 };
 
-export const routeTo = (link: string, history?: any) => {
-  if (!history) {
-    window.location.href = link;
-  } else {
-    history.push(link);
-  }
-  // eslint-disable-next-line no-restricted-globals
-  parent.postMessage(link, "*");
-};
+export function shadeColor(color: string, amount: number) {
+  const value = (amount * 220) / 100;
+
+  return (
+    "#" +
+    color
+      .replace(/^#/, "")
+      .replace(/../g, (color) =>
+        (
+          "0" +
+          Math.min(255, Math.max(0, parseInt(color, 16) + value)).toString(16)
+        ).substr(-2)
+      )
+  );
+}
 
 export function stringToCamelCase(string: string) {
   if (string && string !== "") {
@@ -129,6 +146,67 @@ export function stringToCamelCase(string: string) {
   return string;
 }
 
+export function randomGen() {
+  return Math.random().toString().substring(0, 7);
+}
+
+export const deleteClientPage = async (
+  clientID: string,
+  pageID: string,
+  baseUrl: string
+) => {
+  const res = await axiosHandler({
+    method: "delete",
+    url: CLIENT_PAGE_URL(baseUrl) + `clients/${clientID}/page/${pageID}`,
+    clientID,
+  }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+  if (res) {
+    return true;
+  }
+  return null;
+};
+
+export const getClientPages = async (
+  clientID: string,
+  currentPage: number,
+  baseUrl: string
+) => {
+  const res = await axiosHandler({
+    method: "get",
+    url:
+      CLIENT_PAGE_URL(baseUrl) +
+      `clients/${clientID}/page?limit=10&page=${currentPage}`,
+    clientID,
+  }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+  if (res) {
+    return res.data;
+  }
+  return null;
+};
+
+export const createClientPage = async (
+  method: string,
+  clientID: string,
+  data: any,
+  baseUrl: string,
+  extra: string = ""
+) => {
+  let url = CLIENT_PAGE_URL(baseUrl) + `clients/${clientID}/page`;
+  if (extra) {
+    url += `/${extra}`;
+  }
+  const res = await axiosHandler({
+    method,
+    url,
+    data,
+    clientID,
+  }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+  if (res) {
+    return res.data;
+  }
+  return null;
+};
+
 export const getLandingPages = async (
   clientID: string,
   currentPage: number,
@@ -137,6 +215,38 @@ export const getLandingPages = async (
   const res = await axiosHandler({
     method: "get",
     url: LANDING_PAGE_URL(baseUrl) + `pages?limit=10&page=${currentPage}`,
+    clientID,
+  }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+  if (res) {
+    return res.data;
+  }
+  return null;
+};
+
+export const deleteLandingPage = async (
+  clientID: string,
+  pageID: string,
+  baseUrl: string
+) => {
+  const res = await axiosHandler({
+    method: "delete",
+    url: LANDING_PAGE_URL(baseUrl) + `pages/${pageID}`,
+    clientID,
+  }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+  if (res) {
+    return true;
+  }
+  return null;
+};
+
+export const getTemplates = async (
+  clientID: string,
+  currentPage: number,
+  baseUrl: string
+) => {
+  const res = await axiosHandler({
+    method: "get",
+    url: LANDING_PAGE_URL(baseUrl) + `templates?limit=10&page=${currentPage}`,
     clientID,
   }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
   if (res) {

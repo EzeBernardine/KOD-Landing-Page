@@ -116,8 +116,8 @@ export default function LogoEditor() {
           />
         )}
       </div>
-      <Divider className="dividerCustom" />
-      <div className={styles.header}>
+      {/* <Divider className="dividerCustom" /> */}
+      {/* <div className={styles.header}>
         <h3>Upload Game Graphics</h3>
         <p>
           Choose your company logo, this would be displayed on the side menu
@@ -138,7 +138,7 @@ export default function LogoEditor() {
             style={{ backgroundImage: `url(${gameGraphics})` }}
           />
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

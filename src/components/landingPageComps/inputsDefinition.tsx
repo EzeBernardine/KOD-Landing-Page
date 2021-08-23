@@ -10,19 +10,19 @@ import React, { useContext, useEffect, useState } from "react";
 import { actionTypes } from "../../state-management/actions";
 import { Store } from "../../state-management/storeComponent";
 import styles from "../../styles/styles.module.scss";
-import { axiosHandler, errorHandler, getClientId } from "../../utils/network";
-import { GAMING_URL } from "../../utils/urls";
+import { axiosHandler, errorHandler } from "../../utils/network";
+import { GAMING_URL, BILLING_URL } from "../../utils/urls";
 
 export default function InputsDefinition() {
   const {
-    state: {
-      landingPageData,
-      baseUrls: { baseUrl },
-    },
+    state: { landingPageData, authInfo },
     dispatch,
   }: any = useContext(Store);
 
   const [games, setGames]: any = useState([]);
+  const [isReward, setIsRewarded] = useState(false);
+  const [ledgers, setLedgers]: any = useState([]);
+  const [ledger, setLedger]: any = useState([]);
   const [game, setGame] = useState("");
   const [playAmount, setPlayAmount] = useState(0);
   const [redirectUrl, setRedirectUrl] = useState("");
@@ -39,13 +39,28 @@ export default function InputsDefinition() {
   const getGames = async () => {
     const res = await axiosHandler({
       method: "get",
-      url: GAMING_URL(baseUrl) + "/gameInstances",
-      clientID: getClientId(),
+      url: GAMING_URL + "gameInstances",
+      clientID: authInfo?.clientId,
     }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
     if (res) {
       setGames(
         res.data._embedded.gameInstances.map((item: any) => ({
           title: item.label,
+          value: item.id,
+        }))
+      );
+    }
+  };
+  const getLedgers = async () => {
+    const res = await axiosHandler({
+      method: "get",
+      url: BILLING_URL + "client-ledger",
+      clientID: authInfo?.clientId,
+    }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+    if (res) {
+      setLedgers(
+        res.data._embedded.clientLedgers.map((item: any) => ({
+          title: item.name,
           value: item.id,
         }))
       );
@@ -83,6 +98,7 @@ export default function InputsDefinition() {
       setAsMounted(true);
     }
     getGames();
+    getLedgers();
   }, []);
 
   useEffect(() => {
@@ -147,7 +163,6 @@ export default function InputsDefinition() {
       <Divider className="dividerCustom" />
       <div className={styles.header}>
         <h3>Define your Landing Page Inputs</h3>
-        {/* <p>You can choose up to 4 brand colour that sooth you</p> */}
       </div>
       <div className="spacer-20" />
       <div className="spacer-10" />
@@ -180,18 +195,12 @@ export default function InputsDefinition() {
         <FormGroup label="Select Ledger" htmlFor="">
           <Select
             placeholder="Select Game to play"
-            value={game}
-            onChange={(e) => setGame(e.target.value)}
-            options={games}
+            value={ledger}
+            onChange={(e) => setLedger(e.target.value)}
+            options={ledgers}
           />
         </FormGroup>
-        {/* <FormGroup label="Play Amount" htmlFor="">
-            <Input
-              value={playAmount}
-              onChange={(e) => setPlayAmount(e.target.value)}
-              placeholder="Enter amount to play game"
-            />
-          </FormGroup> */}
+
         <FormGroup label="Redirect Url" htmlFor="">
           <Input
             value={redirectUrl}
@@ -200,41 +209,18 @@ export default function InputsDefinition() {
             required={false}
           />
         </FormGroup>
-        {/* <FormGroup label="Interaction Button Text" htmlFor="">
-            <Input
-              value={interactionButtonText}
-              onChange={(e) => setInteractionButtonText(e.target.value)}
-              placeholder="Main screen button text"
-            />
-          </FormGroup> */}
-        {/* <FormGroup label="Bg Main Text" htmlFor="">
-            <Input
-              value={bgTextMain}
-              onChange={(e) => setBgTextMain(e.target.value)}
-              placeholder="Main main screen text"
-            />
-          </FormGroup> */}
-        {/* <FormGroup label="Bg Sub Text" htmlFor="">
-            <Input
-              value={bgTextSub}
-              onChange={(e) => setBgTextSub(e.target.value)}
-              placeholder="Main sub screen text"
-            />
-          </FormGroup> */}
-        {/* <FormGroup label="Input Submit Button Text" htmlFor="">
-            <Input
-              value={inputSubmitButtonText}
-              onChange={(e) => setInputSubmitButtonText(e.target.value)}
-              placeholder="Inputs submit button text"
-            />
-          </FormGroup> */}
-        {/* <FormGroup label="Inputs Submit Url" htmlFor="">
-            <Input
-              value={formSubmitUrl}
-              onChange={(e) => setFormSubmitUrl(e.target.value)}
-              placeholder="url to submit inputs"
-            />
-          </FormGroup> */}
+
+        <div className="grid grid-2 gap-2">
+          <label htmlFor="">Does this page require a reward/goal?</label>
+          <input
+            type="checkbox"
+            onClick={(e) => {
+              let { checked } = e.target as HTMLInputElement;
+              checked ? setIsRewarded(true) : setIsRewarded(false);
+            }}
+            defaultChecked={false}
+          />
+        </div>
       </div>
       <Divider className="dividerCustom" />
       <div className={styles.header}>

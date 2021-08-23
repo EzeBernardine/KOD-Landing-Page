@@ -6,5 +6,5 @@ export const UPLOAD_URL = (BASE_URL: string) => BASE_URL + "files/v1/upload ";
 
 export const LANDING_PAGE_URL = (BASE_URL: string) =>
   BASE_URL + "landing-page/v1/";
-  export const CLIENT_PAGE_URL = (BASE_URL: string) => BASE_URL + "clients/v1/";
-  export const GAMING_URL = (BASE_URL: string) => BASE_URL + "games/";
+export const CLIENT_PAGE_URL = (BASE_URL: string) => BASE_URL + "clients/v1/";
+export const GAMING_URL = BASE_URL + "games/";

@@ -44,7 +44,7 @@ const LandingPages: React.FC = () => {
   }, [1]);
 
   const createPage = () => {
-    routeTo("/settings/create-landing-page", history);
+    routeTo("/landing-page/create-landing-page", history);
   };
 
   return (

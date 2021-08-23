@@ -96,16 +96,57 @@ small {
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
 }
-.LandingInputsCard{
-    position: relative
+.LandingInputsCard {
+  position: relative;
 }
 .deleteInput {
   position: absolute;
-  bottom: 20px;
-  left: 0;
+  top: -10px;
+  cursor: pointer;
+  right: 0;
   padding: 3px 11px;
 }
-
+.checkField {
+  display: flex;
+  input {
+    height: 20px;
+    width: 20px;
+    margin-left: 20px;
+  }
+}
+.tooltip {
+  position: relative;
+  span {
+    display: none;
+    background-color: black;
+    position: absolute;
+  }
+  &:hover {
+    span {
+      display: block;
+      color: white;
+      top: -23px;
+      padding: 2px 7px;
+      white-space: nowrap;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+  }
+}
+.createButton {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+  
+    .button {
+      background-color: $dangerColor !important;
+  
+      &:hover {
+        background-color: darken($dangerColor, 5%) !important;
+      }
+    }
+  }
+  
 .kTable {
   width: 100%;
 }

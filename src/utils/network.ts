@@ -1,5 +1,3 @@
-
-
 import { tokenStore } from "./../interfaces/data";
 import { ObjectLiteral } from "./../interfaces/index";
 import Axios from "axios";
@@ -50,14 +48,14 @@ export const axiosHandler = ({
 };
 
 export const routeTo = (link: string, history?: any) => {
-    if (!history) {
-      window.location.href = link;
-    } else {
-      history.push(link);
-    }
-    // eslint-disable-next-line no-restricted-globals
-    parent.postMessage(link, "*");
-  };
+  if (!history) {
+    window.location.href = link;
+  } else {
+    history.push(link);
+  }
+  // eslint-disable-next-line no-restricted-globals
+  parent.postMessage(link, "*");
+};
 
 export const errorHandler = (err: ObjectLiteral, defaulted = false) => {
   if (defaulted) {
@@ -214,7 +212,7 @@ export const getLandingPages = async (
 ) => {
   const res = await axiosHandler({
     method: "get",
-    url: LANDING_PAGE_URL(baseUrl) + `pages?limit=10&page=${currentPage}`,
+    url: LANDING_PAGE_URL + `pages?limit=10&page=${currentPage}`,
     clientID,
   }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
   if (res) {
@@ -230,7 +228,7 @@ export const deleteLandingPage = async (
 ) => {
   const res = await axiosHandler({
     method: "delete",
-    url: LANDING_PAGE_URL(baseUrl) + `pages/${pageID}`,
+    url: LANDING_PAGE_URL + `pages/${pageID}`,
     clientID,
   }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
   if (res) {
@@ -246,7 +244,7 @@ export const getTemplates = async (
 ) => {
   const res = await axiosHandler({
     method: "get",
-    url: LANDING_PAGE_URL(baseUrl) + `templates?limit=10&page=${currentPage}`,
+    url: LANDING_PAGE_URL + `templates?limit=10&page=${currentPage}`,
     clientID,
   }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
   if (res) {

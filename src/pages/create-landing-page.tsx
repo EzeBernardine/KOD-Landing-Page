@@ -1,4 +1,4 @@
-import { Button, Icon, IconTypes } from "kodobe-react-components";
+import { Button, Icon, IconTypes , Breadcrumb} from "kodobe-react-components";
 import { useHistory } from "react-router-dom";
 import { routeTo } from "../utils/network";
 import styles from "../styles/styles.module.scss";
@@ -43,13 +43,26 @@ const CreateLandingPage = () => {
     delete landingPageData.gameProps.clientInfo.logo;
     delete landingPageData.gameProps.clientInfo.userId;
     console.log({ landingPageData });
-
-  
   };
 
   const goBack = () => {
     routeTo("/settings", history);
   };
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.setPageTile,
+      payload: (
+        <Breadcrumb
+          onNavigate={(e) => routeTo(e, history)}
+          items={[
+            { title: "LANDING PAGE", link: "/landing-page" },
+            { title: "CREATE LANDING PAGE", link: "" },
+          ]}
+        />
+      ),
+    });
+  }, []);
 
   return (
     <div>
@@ -92,14 +105,14 @@ const CreateLandingPage = () => {
           </form>
           <div className="spacer-20" />
         </div>
-        {/* <div className={styles.right}>
+        <div className={styles.right}>
           <br />
           <h1>Preview Landing Page</h1>
           <br />
           <LandingPagePreview />
           <br />
           <br />
-        </div> */}
+        </div>
       </div>
     </div>
   );

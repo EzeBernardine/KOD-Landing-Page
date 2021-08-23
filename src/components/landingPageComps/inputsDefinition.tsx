@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   FormGroup,
+  IconTypes,
   Input,
   Select,
 } from "kodobe-react-components";
@@ -100,7 +101,7 @@ export default function InputsDefinition() {
     }
     getGames();
     getLedgers();
-    console.log(authInfo?.clientId, 'authInfo?.clientId')
+    console.log(authInfo?.clientId, "authInfo?.clientId");
   }, []);
 
   useEffect(() => {
@@ -212,26 +213,30 @@ export default function InputsDefinition() {
           />
         </FormGroup>
 
-        <FormGroup label="Data Collection Webhook" htmlFor="">
-          <Input
-            value={webHookUrl}
-            onChange={(e) => setWebHookUrl(e.target.value)}
-            placeholder="Enter data collection url"
-            required={false}
-          />
-        </FormGroup>
-
-        <div className="grid grid-2 gap-2">
-          <label htmlFor="">Does this page require a reward/goal?</label>
-          <input
-            type="checkbox"
-            onClick={(e) => {
-              let { checked } = e.target as HTMLInputElement;
-              checked ? setIsRewarded(true) : setIsRewarded(false);
-            }}
-            defaultChecked={false}
-          />
+        <div className="tooltip">
+          <FormGroup label="Data Collection Webhook" htmlFor="">
+            <span>Does this page require a reward/goal?</span>
+            <Input
+              value={webHookUrl}
+              onChange={(e) => setWebHookUrl(e.target.value)}
+              placeholder="Enter data collection url"
+              required={false}
+            />
+          </FormGroup>
         </div>
+      </div>
+      <div className="spacer-20" />
+
+      <div className="checkField">
+        <label htmlFor="">Does this page require a reward/goal?</label>
+        <input
+          type="checkbox"
+          onClick={(e) => {
+            let { checked } = e.target as HTMLInputElement;
+            checked ? setIsRewarded(true) : setIsRewarded(false);
+          }}
+          defaultChecked={false}
+        />
       </div>
       <Divider className="dividerCustom" />
 
@@ -243,34 +248,38 @@ export default function InputsDefinition() {
       <div className="spacer-10" />
       {inputs.map((item: any, i: number) => (
         <div key={i} className="LandingInputsCard">
-          <Button onClick={() => removeInput(i)} className="deleteInput">
-            Delete
-          </Button>
-          <FormGroup label={`Input${i + 1} Label`} htmlFor="">
-            <Input
-              value={item.label}
-              name="label"
-              onChange={(e: any) => changeInputs(e, i)}
-              placeholder="enter input label"
-              required
-            />
-          </FormGroup>
-          <FormGroup label={`Input${i + 1} Value`} htmlFor="">
-            <Input
-              value={item.key}
-              name="key"
-              onChange={(e: any) => changeInputs(e, i)}
-              placeholder="enter input key"
-              required
-            />
-          </FormGroup>
+          <div onClick={() => removeInput(i)} className="deleteInput">
+            &#10006;
+          </div>
+          <div className="inputField ">
+            <FormGroup label={` Label`} htmlFor="">
+              <Input
+                value={item.label}
+                name="label"
+                onChange={(e: any) => changeInputs(e, i)}
+                placeholder="enter input label"
+                required
+              />
+            </FormGroup>
+            <FormGroup label={` Key`} htmlFor="">
+              <Input
+                value={item.key}
+                name="key"
+                onChange={(e: any) => changeInputs(e, i)}
+                placeholder="enter input key"
+                required
+              />
+            </FormGroup>
+          </div>
           <br />
           <br />
         </div>
       ))}
 
       <br />
-      <Button onClick={addToInput}>Add Input</Button>
+      <Button className="successColorBg" onClick={addToInput}>
+        Add Input
+      </Button>
     </div>
   );
 }

@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Port+Lligat+Sans&display=swap");
+
+// fonts
+$primaryFont: "Poppins", sans-serif;
+$secondaryFont: "Port Lligat Sans", sans-serif;
+
+//colors
+$primaryColor: #514747;
+$textMainColor: #1a1a1a;
+$textLightColor: #737373;
+$textWhiteColor: #ffffff;
+$successColor: #57c0a1;
+$essentialColor: #ecf9ff;
+$linkColor: #006dd2;
+$warningColor: #fff0c8;
+$dangerColor: #eb5757;
+$greyColor: #f5f5f5;
+$greyLightColor: #e9e9e9;
+
+$mainTheme: white;
+$themeTextColor: #161616;
+$themeDarkColor: #000000;
+$themeLightText: #666565;
+$themeExtraLightBg: #f5f5f5;
+$themeLightBg: #cecece;
+
+//costs
+$headerLayoutHeight: 70px;
+$mainHeight: calc(100vh - #{$headerLayoutHeight});

@@ -1,0 +1,46 @@
+image: nikolaik/python-nodejs
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Deploy Live
+          deployment: Production
+          caches:
+            - node
+          script: # Modify the commands below to build your repository.
+            - npm install
+            - unset CI
+            - npm run build
+            - npm run export
+            - pip install awscli --upgrade --ignore-installed six
+            - aws s3 sync ./build s3://yellostar-prod-01
+
+    develop:
+      - step:
+          name: Deploy Staging
+          deployment: Staging
+          caches:
+            - node
+          script: # Modify the commands below to build your repository.
+            - npm install
+            - unset CI
+            - npm run build
+            - pip install awscli --upgrade --ignore-installed six
+            - aws s3 rm s3://client-admin-trivia-staging-02 --recursive
+            - aws s3 sync ./build s3://client-admin-trivia-staging-02
+            - aws cloudfront create-invalidation --distribution-id E3DYE2AZUZSG29 --paths "/*"
+
+    sandbox:
+      - step:
+          name: Deploy Sandbox
+          deployment: Sandbox
+          caches:
+            - node
+          script: # Modify the commands below to build your repository.
+            - npm install
+            - unset CI
+            - npm run build
+            - npm run export
+            - pip install awscli --upgrade --ignore-installed six
+            - aws s3 sync ./build s3://thevoice-sandbox-01
+            - aws cloudfront create-invalidation --distribution-id E1CJF4X29EXFFE --paths "/*"

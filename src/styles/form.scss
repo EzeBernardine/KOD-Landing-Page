@@ -1,0 +1,105 @@
+@import "./variables";
+
+.update-trivia-modal {
+  border: 1px solid $themeLightBg;
+  max-height: calc(90vh - 50px);
+  overflow-y: scroll;
+}
+.trivia-modal {
+  max-width: 500px;
+}
+.error {
+  color: $dangerColor;
+}
+//all select fields
+select {
+  appearance: none;
+}
+select::-ms-expand {
+  display: none;
+}
+.selectContainer {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0 10px;
+  border: 1px solid #e5e5e5;
+  display: inline-flex;
+  border-radius: 4px;
+  height: 40px;
+  box-sizing: border-box;
+  transition: 0.3s ease;
+  > select {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+  > .hideSelectInput {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    height: 100%;
+    z-index: -1;
+  }
+}
+.pointer {
+  cursor: pointer;
+}
+.blueButton {
+  background-color: $linkColor;
+  svg,
+  svg path {
+    stroke: $textWhiteColor;
+  }
+}
+
+// trivia question form
+.triviaQuestionOptions {
+  margin-bottom: 10px;
+  border: 1px solid #e5e5e5;
+  padding: 10px;
+  border-radius: 4px;
+  > div {
+    b {
+      font-size: 14px;
+    }
+    span {
+      font-size: 12px;
+      padding-left: 10px;
+    }
+  }
+}
+.addOptionButton {
+  padding: 7px 10px;
+  font-size: 10px;
+  display: inline-block;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: 0.3s ease;
+  border: none;
+  outline: none;
+  background-color: #006dd2;
+  :hover {
+    background-color: #0060b9;
+  }
+}
+.upload-input {
+  input {
+    cursor: pointer;
+  }
+}
+.questionCard {
+  display: flex;
+  flex-direction: column;
+}
+.summaryButton {
+  margin-top: 10px;
+  padding: 5px;
+  font-size: 10px;
+}

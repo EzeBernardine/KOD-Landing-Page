@@ -19,17 +19,19 @@ export default function ColorEditor() {
     }
   }, [landingPageData]);
 
-  const onChange = (key: string, color: string) => {
+  const onChange = (color: string) => {
     dispatch({
       type: actionTypes.updateLandingPageInfo,
       payload: {
         ...landingPageData,
         uiFeatures: {
           ...landingPageData.uiFeatures,
-          colorTheme: {
-            ...landingPageData.uiFeatures.colorTheme,
-            [key]: color,
-          },
+          colorTheme: color,
+
+          //   colorTheme: {
+          //     ...landingPageData.uiFeatures.colorTheme,
+          //     [key]: color,
+          //   },
         },
       },
     });
@@ -48,13 +50,13 @@ export default function ColorEditor() {
         <ColorPicker
           title="Main Color"
           value={colorInfo.mainColor}
-          onChange={(e) => onChange("mainColor", e)}
+          onChange={(e) => onChange(e)}
         />
-        <ColorPicker
+        {/* <ColorPicker
           title="Content Color"
           value={colorInfo.contentColor}
           onChange={(e) => onChange("contentColor", e)}
-        />
+        /> */}
       </div>
     </div>
   );

@@ -5,14 +5,16 @@ import {
   FormGroup,
   IconTypes,
   Input,
+  TextArea,
   Select,
 } from "kodobe-react-components";
 import React, { useContext, useEffect, useState } from "react";
 import { actionTypes } from "../../state-management/actions";
 import { Store } from "../../state-management/storeComponent";
 import styles from "../../styles/styles.module.scss";
+import { GenerateID } from "../../utils/generateID";
 import { axiosHandler, errorHandler } from "../../utils/network";
-import { GAMING_URL, BILLING_URL } from "../../utils/urls";
+import { GAMING_URL, BILLING_URL, LANDING_PAGE_URL } from "../../utils/urls";
 
 export default function InputsDefinition() {
   const {
@@ -24,15 +26,21 @@ export default function InputsDefinition() {
   const [isReward, setIsRewarded] = useState(false);
   const [ledgers, setLedgers]: any = useState([]);
   const [ledger, setLedger]: any = useState([]);
+  const [state, setState]: any = useState({
+    // whoIsEligible: "",
+    message: "",
+    actionURL: "",
+  });
+  const [eligibility, setEligibility]: any = useState("");
   const [game, setGame] = useState("");
   const [playAmount, setPlayAmount] = useState(0);
   const [redirectUrl, setRedirectUrl] = useState("");
   const [webHookUrl, setWebHookUrl] = useState("");
-  const [interactionButtonText, setInteractionButtonText] = useState("");
-  const [bgTextMain, setBgTextMain] = useState("");
-  const [bgTextSub, setBgTextSub] = useState("");
-  const [inputSubmitButtonText, setInputSubmitButtonText] = useState("");
-  const [formSubmitUrl, setFormSubmitUrl] = useState("");
+  //   const [interactionButtonText, setInteractionButtonText] = useState("");
+  //   const [bgTextMain, setBgTextMain] = useState("");
+  //   const [bgTextSub, setBgTextSub] = useState("");
+  //   const [inputSubmitButtonText, setInputSubmitButtonText] = useState("");
+  //   const [formSubmitUrl, setFormSubmitUrl] = useState("");
   const [pageTitle, setPageTitle] = useState("");
   const [pageSlug, setPageSlug] = useState("");
   const [inputs, setInputs]: any = useState([]);
@@ -68,6 +76,28 @@ export default function InputsDefinition() {
       );
     }
   };
+  //   const getTemplate = async () => {
+  //     const res = await axiosHandler({
+  //       method: "post",
+  //       url: LANDING_PAGE_URL + "templates",
+  //       data: {
+  //         name: "Summer",
+  //         image:
+  //           "https://thebrownidentity.com/wp-content/uploads/2020/07/01-birth-month-If-You-Were-Born-In-Summer-This-Is-What-We-Know-About-You_644740429-icemanphotos.jpg",
+  //         tag: "winteriiiii",
+  //       },
+  //       clientID: authInfo?.clientId,
+  //     }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+  //     if (res) {
+  //       console.log(res);
+  //       setLedgers(
+  //         res.data._embedded.clientLedgers.map((item: any) => ({
+  //           title: item.name,
+  //           value: item.id,
+  //         }))
+  //       );
+  //     }
+  //   };
 
   const getObjectFromArray = (arrayValue: any) => {
     const resultObject: any = {};
@@ -80,28 +110,20 @@ export default function InputsDefinition() {
   useEffect(() => {
     if (landingPageData) {
       setGame(landingPageData.gameProps.gameId);
-      setPlayAmount(landingPageData.gameProps.spinAmount);
       setRedirectUrl(landingPageData.gameEndProps.redirectUrl);
-      setInteractionButtonText(landingPageData.interactionButtonText);
-      setBgTextMain(landingPageData.bgTextMain);
-      setBgTextSub(landingPageData.bgTextSub);
-      setFormSubmitUrl(landingPageData.gameEndProps.submitUrl);
       setPageTitle(landingPageData.title);
       setPageSlug(landingPageData.slug);
+      setWebHookUrl(landingPageData.webhook);
       setInputs(
         Object.keys(landingPageData.gameEndProps.inputs).map((item: any) => ({
           label: item,
           key: landingPageData.gameEndProps.inputs[item],
         }))
       );
-      setInputSubmitButtonText(
-        landingPageData.gameEndProps.inputSubmitButtonText
-      );
       setAsMounted(true);
     }
     getGames();
     getLedgers();
-    console.log(authInfo?.clientId, "authInfo?.clientId");
   }, []);
 
   useEffect(() => {
@@ -112,21 +134,18 @@ export default function InputsDefinition() {
         ...landingPageData,
         gameProps: {
           ...landingPageData.gameProps,
-          gameId: game,
-          spinAmount: playAmount,
         },
-        gameEndProps: {
-          ...landingPageData.gameEndProps,
-          redirectUrl: redirectUrl,
-          inputSubmitButtonText: inputSubmitButtonText,
-          submitUrl: formSubmitUrl,
-          inputs: getObjectFromArray(inputs),
-        },
-        interactionButtonText: interactionButtonText,
-        bgTextMain: bgTextMain,
-        bgTextSub: bgTextSub,
         title: pageTitle,
         slug: pageSlug,
+        gameInstanceId: game,
+        winningLedgerId: ledger,
+        isHurdleRequired: isReward,
+        eligibility: eligibility,
+        nonEligibilityMessage: state,
+        webhook: webHookUrl,
+        inputs: inputs,
+        redirectURL: redirectUrl,
+        templateId: null,
       },
     });
   }, [
@@ -135,10 +154,12 @@ export default function InputsDefinition() {
     pageTitle,
     playAmount,
     redirectUrl,
-    interactionButtonText,
-    bgTextMain,
-    bgTextSub,
-    inputSubmitButtonText,
+    // interactionButtonText,
+    // bgTextMain,
+    isReward,
+    webHookUrl,
+    // bgTextSub,
+    // inputSubmitButtonText,
     inputs,
   ]);
 
@@ -208,46 +229,55 @@ export default function InputsDefinition() {
       <div className="spacer-20" />
       <div className="spacer-10" />
 
-      <fieldset className="fieldSet">
-        <legend>Choose your favorite monster</legend>
-
-        <FormGroup label="Who is eligiblefor this landing page gamification?" htmlFor="">
+      <Divider className="dividerCustom" />
+      <div className="fieldSet">
+        <FormGroup
+          label="Who is eligible for this landing page gamification?"
+          htmlFor=""
+        >
           <Select
-            placeholder="Select Game to play"
-            value={game}
-            onChange={(e) => setGame(e.target.value)}
+            placeholder="Who is eligible for this landing page gamification?"
+            value={eligibility}
+            onChange={(e) => setEligibility(e.target.value)}
+            id={GenerateID(15)}
             options={[
-              { title: "Everyone", value: "evryone" },
+              { title: "Everyone", value: "everyone" },
               { title: "Customers", value: "customers" },
             ]}
           />
         </FormGroup>
-
-        <div className="inputField">
-          <FormGroup label="Message for noneligible users" htmlFor="">
-            <Input
-              value={redirectUrl}
-              onChange={(e) => setRedirectUrl(e.target.value)}
-              placeholder="Enter url to redirect to when game is complete"
-              required={false}
-            />
-          </FormGroup>
-          <FormGroup label="Action Url" htmlFor="">
-            <Input
-              value={redirectUrl}
-              onChange={(e) => setRedirectUrl(e.target.value)}
-              placeholder="Enter url to redirect to when game is complete"
-              required={false}
-            />
-          </FormGroup>
-        </div>
-      </fieldset>
+        <div className="spacer-20" />
+        <FormGroup label="Message for Non-Eligible Customers" htmlFor="">
+          <TextArea
+            value={state.message}
+            onChange={(e) => setState({ ...state, message: e.target.value })}
+            placeholder="Enter a message for users that are not eligible"
+            required={false}
+          />
+        </FormGroup>
+        <div className="spacer-20" />
+        <FormGroup
+          label="Where Should We Redirect Non-Eligible Customers to?"
+          htmlFor=""
+        >
+          <Input
+            value={state.actionURL}
+            onChange={(e) => setState({ ...state, actionURL: e.target.value })}
+            placeholder="Enter url to redirect to when user is not eligible"
+            required={false}
+          />
+        </FormGroup>
+      </div>
+      <Divider className="dividerCustom" />
 
       <div className="spacer-20" />
       <div className="spacer-10" />
 
       <div className="inputField">
-        <FormGroup label="Redirect Url" htmlFor="">
+        <FormGroup
+          label="Where do we redirect the user after all activity?"
+          htmlFor=""
+        >
           <Input
             value={redirectUrl}
             onChange={(e) => setRedirectUrl(e.target.value)}
@@ -258,10 +288,13 @@ export default function InputsDefinition() {
 
         <div className="tooltip">
           <FormGroup label="Data Collection Webhook" htmlFor="">
-            <span>Does this page require a reward/goal?</span>
+            {/* <span>Tooltip</span> */}
             <Input
               value={webHookUrl}
-              onChange={(e) => setWebHookUrl(e.target.value)}
+              onChange={(e) => {
+                setWebHookUrl(e.target.value);
+                console.log(webHookUrl, "webHookUrl");
+              }}
               placeholder="Enter data collection url"
               required={false}
             />
@@ -277,6 +310,7 @@ export default function InputsDefinition() {
           onClick={(e) => {
             let { checked } = e.target as HTMLInputElement;
             checked ? setIsRewarded(true) : setIsRewarded(false);
+            console.log(isReward);
           }}
           defaultChecked={false}
         />

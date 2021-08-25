@@ -1,10 +1,11 @@
 import { TemplateProps } from "kodobe-template-builder";
 import { getClientId, getToken } from "../utils/network";
 
-const colorTheme = {
-  mainColor: "#0600ff",
-  contentColor: "#ffffff",
-};
+// const colorTheme = {
+//   mainColor: "#0600ff",
+//   contentColor: "#ffffff",
+// };
+const colorTheme = "#0600ff";
 
 export const defaultTemplateData: TemplateProps = {
   uiFeatures: {
@@ -31,7 +32,6 @@ export const defaultTemplateData: TemplateProps = {
     status: false,
     playData: {},
     redirectUrl: "",
-    colorTheme,
     winImage:
       "https://image.shutterstock.com/image-illustration/youve-won-rubber-stamp-over-260nw-158040608.jpg",
     lossImage:

@@ -50,10 +50,10 @@ const LandingPages: React.FC = () => {
         .then((res: any) => {
           let data = res.data.data;
           setLandingPages(data);
-          console.log(data);
+        //   console.log(data);
         })
         .catch((e: any) => {
-          console.log({ ...e });
+        //   console.log({ ...e });
           Alert.showError({ content: errorHandler(e) });
         });
       setLoading(false);

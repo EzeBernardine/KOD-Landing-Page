@@ -203,7 +203,50 @@ export default function InputsDefinition() {
             options={ledgers}
           />
         </FormGroup>
+      </div>
 
+      <div className="spacer-20" />
+      <div className="spacer-10" />
+
+      <fieldset className="fieldSet">
+        <legend>Choose your favorite monster</legend>
+
+        <FormGroup label="Who is eligiblefor this landing page gamification?" htmlFor="">
+          <Select
+            placeholder="Select Game to play"
+            value={game}
+            onChange={(e) => setGame(e.target.value)}
+            options={[
+              { title: "Everyone", value: "evryone" },
+              { title: "Customers", value: "customers" },
+            ]}
+          />
+        </FormGroup>
+
+        <div className="inputField">
+          <FormGroup label="Message for noneligible users" htmlFor="">
+            <Input
+              value={redirectUrl}
+              onChange={(e) => setRedirectUrl(e.target.value)}
+              placeholder="Enter url to redirect to when game is complete"
+              required={false}
+            />
+          </FormGroup>
+          <FormGroup label="Action Url" htmlFor="">
+            <Input
+              value={redirectUrl}
+              onChange={(e) => setRedirectUrl(e.target.value)}
+              placeholder="Enter url to redirect to when game is complete"
+              required={false}
+            />
+          </FormGroup>
+        </div>
+      </fieldset>
+
+      <div className="spacer-20" />
+      <div className="spacer-10" />
+
+      <div className="inputField">
         <FormGroup label="Redirect Url" htmlFor="">
           <Input
             value={redirectUrl}

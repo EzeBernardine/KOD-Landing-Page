@@ -1,11 +1,11 @@
 import { TemplateProps } from "kodobe-template-builder";
 import { getClientId, getToken } from "../utils/network";
 
+
 const colorTheme = {
   mainColor: "#0600ff",
   contentColor: "#ffffff",
 };
-// const colorTheme = "#0600ff";
 
 export const defaultTemplateData: TemplateProps = {
   uiFeatures: {

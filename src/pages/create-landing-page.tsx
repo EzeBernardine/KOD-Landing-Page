@@ -27,6 +27,8 @@ const CreateLandingPage = () => {
     dispatch,
   }: any = useContext(Store);
 
+
+
   useEffect(() => {
     dispatch({ type: actionTypes.showLayout, payload: false });
     dispatch({ type: actionTypes.showLogo, payload: true });

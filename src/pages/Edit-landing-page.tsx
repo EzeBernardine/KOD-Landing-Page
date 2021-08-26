@@ -39,7 +39,7 @@ const CreateLandingPage = () => {
         dispatch({ type: actionTypes.showLogo, payload: false });
       }
     };
-  }, []);
+  }, [dispatch,isOnboarding]);
 
   useEffect(() => {
     const getLandingPage = async () => {
@@ -58,7 +58,7 @@ const CreateLandingPage = () => {
       setLoading(false);
     };
     getLandingPage();
-  }, []);
+  }, [authInfo, query]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -98,7 +98,7 @@ const CreateLandingPage = () => {
         />
       ),
     });
-  }, []);
+  }, [dispatch, history, query]);
 
   return (
     <div>

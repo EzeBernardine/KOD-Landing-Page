@@ -5,21 +5,31 @@ import { Store } from "../../state-management/storeComponent";
 import styles from "../../styles/styles.module.scss";
 import { ColorPicker } from "../colorPicker";
 
-export default function ColorEditor() {
+export default function ColorEditor({ page }: any) {
   const {
     state: { landingPageData },
     dispatch,
   }: any = useContext(Store);
 
-  const [colorInfo, setColorInfo]: any = useState({});
+  const [colorInfo, setColorInfo]: any = useState("");
 
   useEffect(() => {
     if (landingPageData.uiFeatures.colorTheme) {
       setColorInfo(landingPageData.uiFeatures.colorTheme);
     }
-  }, [landingPageData]);
+    console.log(page, "page");
+  }, []);
+  //   }, [landingPageData]);
+
+  useEffect(() => {
+    if (page?.uiFeatures?.colorTheme) {
+      setColorInfo(page?.uiFeatures?.colorTheme);
+      console.log("kkkkkkkkkkkkkkkkk");
+    }
+  }, [page]);
 
   const onChange = (color: string) => {
+    console.log(color, "color");
     dispatch({
       type: actionTypes.updateLandingPageInfo,
       payload: {
@@ -49,7 +59,7 @@ export default function ColorEditor() {
       <div className={`grid grid-auto-200 gap-1 ${styles.colorSelect}`}>
         <ColorPicker
           title="Main Color"
-          value={colorInfo.mainColor}
+          value={colorInfo}
           onChange={(e) => onChange(e)}
         />
         {/* <ColorPicker

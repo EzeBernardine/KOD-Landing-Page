@@ -36,6 +36,7 @@ export const UploadCustom = ({
   const {
     state: {
       baseUrls: { baseUrl },
+      authInfo
     },
   }: any = useContext(Store);
 
@@ -47,8 +48,8 @@ export const UploadCustom = ({
         validImageTypesSrc={validImageTypesSrc}
         fileName={fileName}
         onError={onError}
-        uploadUrl={uploadUrl || UPLOAD_URL(baseUrl)}
-        headers={{ "client-id": getClientId(), token: getToken() }}
+        uploadUrl={uploadUrl || UPLOAD_URL}
+        headers={{ "client-id": authInfo?.clientId, token: getToken() }}
         extraFields={extraFields}
       >
         <div className={styles.uploadCustom}>

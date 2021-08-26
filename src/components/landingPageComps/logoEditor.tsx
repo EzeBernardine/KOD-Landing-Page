@@ -5,10 +5,10 @@ import styles from "../../styles/styles.module.scss";
 import { Store } from "../../state-management/storeComponent";
 import { actionTypes } from "../../state-management/actions";
 
-export default function LogoEditor() {
+export default function LogoEditor({ page }: any) {
   const [logo, setLogo] = useState("");
   const [Bglogo, setBgLogo] = useState("");
-  const [gameGraphics, setGameGraphics] = useState("");
+  //   const [gameGraphics, setGameGraphics] = useState("");
 
   const {
     state: { landingPageData },
@@ -22,10 +22,26 @@ export default function LogoEditor() {
     if (landingPageData.uiFeatures.backgroundImage) {
       setBgLogo(landingPageData.uiFeatures.backgroundImage);
     }
-    if (landingPageData.uiFeatures.gameGraphics) {
-      setGameGraphics(landingPageData.uiFeatures.gameGraphics);
+    // if (landingPageData.uiFeatures.gameGraphics) {
+    //   setGameGraphics(landingPageData.uiFeatures.gameGraphics);
+    // }
+  }, []);
+
+  useEffect(() => {
+    if (page?.uiFeatures?.logo || page?.uiFeatures?.backgroundImage) {
+      dispatch({
+        type: actionTypes.updateLandingPageInfo,
+        payload: {
+          ...landingPageData,
+          uiFeatures: {
+            ...landingPageData.uiFeatures,
+            ...(page?.uiFeatures?.logo && {backgroundImage: page?.uiFeatures?.logo}),
+            ...(page?.uiFeatures?.backgroundImage && {backgroundImage: page?.uiFeatures?.backgroundImage})
+          },
+        },
+      });
     }
-  }, [landingPageData]);
+  }, [page]);
 
   const onChange = (e: any) => {
     if (e.completed) {
@@ -57,20 +73,20 @@ export default function LogoEditor() {
     }
   };
 
-  const onGraphicsChange = (e: any) => {
-    if (e.completed) {
-      dispatch({
-        type: actionTypes.updateLandingPageInfo,
-        payload: {
-          ...landingPageData,
-          uiFeatures: {
-            ...landingPageData.uiFeatures,
-            gameGraphics: e.responseFromServer.data.url,
-          },
-        },
-      });
-    }
-  };
+  //   const onGraphicsChange = (e: any) => {
+  //     if (e.completed) {
+  //       dispatch({
+  //         type: actionTypes.updateLandingPageInfo,
+  //         payload: {
+  //           ...landingPageData,
+  //           uiFeatures: {
+  //             ...landingPageData.uiFeatures,
+  //             gameGraphics: e.responseFromServer.data.url,
+  //           },
+  //         },
+  //       });
+  //     }
+  //   };
 
   return (
     <div>

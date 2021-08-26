@@ -14,33 +14,26 @@ import { Store } from "../../state-management/storeComponent";
 import styles from "../../styles/styles.module.scss";
 import { GenerateID } from "../../utils/generateID";
 import { axiosHandler, errorHandler } from "../../utils/network";
-import { GAMING_URL, BILLING_URL, LANDING_PAGE_URL } from "../../utils/urls";
+import { GAMING_URL, BILLING_URL } from "../../utils/urls";
 
-export default function InputsDefinition() {
+export default function InputsDefinition({ page }: any) {
   const {
     state: { landingPageData, authInfo },
     dispatch,
   }: any = useContext(Store);
 
   const [games, setGames]: any = useState([]);
-  const [isReward, setIsRewarded] = useState(false);
+  const [isReward, setIsRewarded] = useState(page?.isHurdleRequired || false);
   const [ledgers, setLedgers]: any = useState([]);
-  const [ledger, setLedger]: any = useState([]);
+  const [ledger, setLedger]: any = useState(page?.winningLedgerId || "");
   const [state, setState]: any = useState({
-    // whoIsEligible: "",
-    message: "",
-    actionURL: "",
+    message: page?.nonEligibilityMessage?.message || "",
+    actionURL: page?.nonEligibilityMessage?.actionURL || "",
   });
-  const [eligibility, setEligibility]: any = useState("");
+  const [eligibility, setEligibility]: any = useState(page?.eligibility || "");
   const [game, setGame] = useState("");
-  const [playAmount, setPlayAmount] = useState(0);
   const [redirectUrl, setRedirectUrl] = useState("");
   const [webHookUrl, setWebHookUrl] = useState("");
-  //   const [interactionButtonText, setInteractionButtonText] = useState("");
-  //   const [bgTextMain, setBgTextMain] = useState("");
-  //   const [bgTextSub, setBgTextSub] = useState("");
-  //   const [inputSubmitButtonText, setInputSubmitButtonText] = useState("");
-  //   const [formSubmitUrl, setFormSubmitUrl] = useState("");
   const [pageTitle, setPageTitle] = useState("");
   const [pageSlug, setPageSlug] = useState("");
   const [inputs, setInputs]: any = useState([]);
@@ -76,49 +69,36 @@ export default function InputsDefinition() {
       );
     }
   };
-  //   const getTemplate = async () => {
-  //     const res = await axiosHandler({
-  //       method: "post",
-  //       url: LANDING_PAGE_URL + "templates",
-  //       data: {
-  //         name: "Summer",
-  //         image:
-  //           "https://thebrownidentity.com/wp-content/uploads/2020/07/01-birth-month-If-You-Were-Born-In-Summer-This-Is-What-We-Know-About-You_644740429-icemanphotos.jpg",
-  //         tag: "winteriiiii",
-  //       },
-  //       clientID: authInfo?.clientId,
-  //     }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
-  //     if (res) {
-  //       console.log(res);
-  //       setLedgers(
-  //         res.data._embedded.clientLedgers.map((item: any) => ({
-  //           title: item.name,
-  //           value: item.id,
-  //         }))
-  //       );
-  //     }
-  //   };
 
-  const getObjectFromArray = (arrayValue: any) => {
-    const resultObject: any = {};
-    for (const i of arrayValue) {
-      resultObject[i.label] = i.value;
-    }
-    return resultObject;
-  };
+  //   const getObjectFromArray = (arrayValue: any) => {
+  //     const resultObject: any = {};
+  //     for (const i of arrayValue) {
+  //       resultObject[i.label] = i.value;
+  //     }
+  //     return resultObject;
+  //   };
 
   useEffect(() => {
     if (landingPageData) {
-      setGame(landingPageData.gameProps.gameId);
-      setRedirectUrl(landingPageData.gameEndProps.redirectUrl);
-      setPageTitle(landingPageData.title);
-      setPageSlug(landingPageData.slug);
-      setWebHookUrl(landingPageData.webhook);
+      setGame(page?.gameInstanceId || landingPageData.gameProps.gameId);
+      setRedirectUrl(
+        page?.redirectURL || landingPageData.gameEndProps.redirectUrl
+      );
+      setPageTitle(page?.title || landingPageData.title);
+      setPageSlug(page?.slug || landingPageData.slug);
+      setWebHookUrl(page?.webhook || landingPageData.webhook);
       setInputs(
-        Object.keys(landingPageData.gameEndProps.inputs).map((item: any) => ({
-          label: item,
-          key: landingPageData.gameEndProps.inputs[item],
-        }))
+        page?.inputs.length
+          ? page?.inputs.map((item: any) => ({
+              label: item.label,
+              key: item.key,
+            }))
+          : Object.keys(landingPageData.gameEndProps.inputs).map(
+              (item: any) => ({
+                label: item,
+                key: landingPageData.gameEndProps.inputs[item],
+              })
+            )
       );
       setAsMounted(true);
     }
@@ -148,20 +128,7 @@ export default function InputsDefinition() {
         templateId: null,
       },
     });
-  }, [
-    game,
-    pageSlug,
-    pageTitle,
-    playAmount,
-    redirectUrl,
-    // interactionButtonText,
-    // bgTextMain,
-    isReward,
-    webHookUrl,
-    // bgTextSub,
-    // inputSubmitButtonText,
-    inputs,
-  ]);
+  }, [game, pageSlug, pageTitle, redirectUrl, isReward, webHookUrl, inputs]);
 
   const changeInputs = (e: any, i: number) => {
     setInputs(
@@ -218,7 +185,7 @@ export default function InputsDefinition() {
         </FormGroup>
         <FormGroup label="Select Ledger" htmlFor="">
           <Select
-            placeholder="Select Game to play"
+            placeholder="Select ledger"
             value={ledger}
             onChange={(e) => setLedger(e.target.value)}
             options={ledgers}
@@ -307,7 +274,8 @@ export default function InputsDefinition() {
         <label htmlFor="">Does this page require a reward/goal?</label>
         <input
           type="checkbox"
-          onClick={(e) => {
+          checked={isReward}
+          onChange={(e) => {
             let { checked } = e.target as HTMLInputElement;
             checked ? setIsRewarded(true) : setIsRewarded(false);
             console.log(isReward);

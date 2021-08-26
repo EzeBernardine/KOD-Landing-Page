@@ -46,7 +46,7 @@ const CreateLandingPage = () => {
     // delete landingPageData.gameEndProps.colorTheme;
     // delete landingPageData.gameProps.clientInfo.logo;
     // delete landingPageData.gameProps.clientInfo.userId;
-    console.log({ ...landingPageData });
+    // console.log({ ...landingPageData });
 
     const res = await axiosHandler({
       method: "post",
@@ -63,7 +63,7 @@ const CreateLandingPage = () => {
   };
 
   const goBack = () => {
-    routeTo("/settings", history);
+    routeTo("/landing-page", history);
   };
 
   useEffect(() => {

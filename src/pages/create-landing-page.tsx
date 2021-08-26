@@ -1,6 +1,12 @@
-import { Button, Icon, IconTypes , Breadcrumb} from "kodobe-react-components";
+import {
+  Button,
+  Icon,
+  IconTypes,
+  Breadcrumb,
+  Alert,
+} from "kodobe-react-components";
 import { useHistory } from "react-router-dom";
-import { routeTo } from "../utils/network";
+import { routeTo, axiosHandler, errorHandler } from "../utils/network";
 import styles from "../styles/styles.module.scss";
 import LogoEditor from "../components/landingPageComps/logoEditor";
 import ColorEditor from "../components/landingPageComps/colorEditor";
@@ -10,16 +16,14 @@ import { actionTypes } from "../state-management/actions";
 import { colors } from "../interfaces/data";
 import { LandingPagePreview } from "../components/landingPagePreview";
 import InputsDefinition from "../components/landingPageComps/inputsDefinition";
+import { LANDING_PAGE_URL } from "../utils/urls";
 
 const CreateLandingPage = () => {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const {
-    state: {
-      landingPageData,
-      isOnboarding,
-    },
+    state: { landingPageData, isOnboarding, authInfo },
     dispatch,
   }: any = useContext(Store);
 
@@ -36,17 +40,30 @@ const CreateLandingPage = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // setLoading(true);
-    delete landingPageData.gameEndProps.status;
-    delete landingPageData.gameEndProps.playData;
-    delete landingPageData.gameEndProps.colorTheme;
-    delete landingPageData.gameProps.clientInfo.logo;
-    delete landingPageData.gameProps.clientInfo.userId;
-    console.log({ landingPageData });
+    setLoading(true);
+    // delete landingPageData.gameEndProps.status;
+    // delete landingPageData.gameEndProps.playData;
+    // delete landingPageData.gameEndProps.colorTheme;
+    // delete landingPageData.gameProps.clientInfo.logo;
+    // delete landingPageData.gameProps.clientInfo.userId;
+    // console.log({ ...landingPageData });
+
+    const res = await axiosHandler({
+      method: "post",
+      url: LANDING_PAGE_URL + "pages",
+      data: { ...landingPageData },
+      clientID: authInfo?.clientId,
+    }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+    if (res) {
+      console.log(res);
+      Alert.showSuccess({ content: "Landing Page Created Successfully" });
+      routeTo("/landing-page");
+    }
+    setLoading(false);
   };
 
   const goBack = () => {
-    routeTo("/settings", history);
+    routeTo("/landing-page", history);
   };
 
   useEffect(() => {

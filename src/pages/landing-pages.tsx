@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import { actionTypes } from "../state-management/actions";
 import { Store } from "../state-management/storeComponent";
 import { errorHandler, axiosHandler } from "../utils/network";
+import { GetDate } from "../utils/factory";
 
 const LandingPages: React.FC = () => {
   const [landingPages, setLandingPages]: any = useState({});
@@ -50,10 +51,8 @@ const LandingPages: React.FC = () => {
         .then((res: any) => {
           let data = res.data.data;
           setLandingPages(data);
-          console.log(data);
         })
         .catch((e: any) => {
-          console.log({ ...e });
           Alert.showError({ content: errorHandler(e) });
         });
       setLoading(false);
@@ -65,11 +64,25 @@ const LandingPages: React.FC = () => {
     routeTo("/landing-page/create-landing-page", history);
   };
 
+  const editLangingPage = (pageId: string) => {
+    routeTo(`/landing-page/edit-landing-page/${pageId}`, history);
+  };
+
   const getLandingPages = () => {
     const result: any = [];
 
     for (let i of landingPages) {
-      result.push([i.label, i.slug, i.createdAt]);
+      result.push([
+        i.title,
+        i.slug,
+        GetDate(i.createdAt),
+        <div
+          className="linkColor pointer"
+          onClick={() => editLangingPage(i.pageId)}
+        >
+          Update
+        </div>,
+      ]);
     }
 
     return result;
@@ -77,13 +90,16 @@ const LandingPages: React.FC = () => {
 
   return (
     <div>
+      <div className="spacer-20" />
+      <div className="spacer-20" />
+
       {loading ? (
         <Spinner />
       ) : (
         <div className="tableQuestions">
           {landingPages.length ? (
             <Table
-              headers={["Label", "Slug", "Date"]}
+              headers={["Title", "Slug", "Date", "Action"]}
               data={loading ? [] : getLandingPages()}
             />
           ) : (

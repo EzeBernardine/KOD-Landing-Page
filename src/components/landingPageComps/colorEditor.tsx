@@ -5,31 +5,43 @@ import { Store } from "../../state-management/storeComponent";
 import styles from "../../styles/styles.module.scss";
 import { ColorPicker } from "../colorPicker";
 
-export default function ColorEditor() {
+export default function ColorEditor({ page }: any) {
   const {
     state: { landingPageData },
     dispatch,
   }: any = useContext(Store);
 
-  const [colorInfo, setColorInfo]: any = useState({});
+  const [colorInfo, setColorInfo]: any = useState("");
 
   useEffect(() => {
     if (landingPageData.uiFeatures.colorTheme) {
       setColorInfo(landingPageData.uiFeatures.colorTheme);
     }
-  }, [landingPageData]);
+    console.log(page, "page");
+  }, []);
+  //   }, [landingPageData]);
 
-  const onChange = (key: string, color: string) => {
+  useEffect(() => {
+    if (page?.uiFeatures?.colorTheme) {
+      setColorInfo(page?.uiFeatures?.colorTheme);
+      console.log("kkkkkkkkkkkkkkkkk");
+    }
+  }, [page]);
+
+  const onChange = (color: string) => {
+    console.log(color, "color");
     dispatch({
       type: actionTypes.updateLandingPageInfo,
       payload: {
         ...landingPageData,
         uiFeatures: {
           ...landingPageData.uiFeatures,
-          colorTheme: {
-            ...landingPageData.uiFeatures.colorTheme,
-            [key]: color,
-          },
+          colorTheme: color,
+
+          //   colorTheme: {
+          //     ...landingPageData.uiFeatures.colorTheme,
+          //     [key]: color,
+          //   },
         },
       },
     });
@@ -47,14 +59,14 @@ export default function ColorEditor() {
       <div className={`grid grid-auto-200 gap-1 ${styles.colorSelect}`}>
         <ColorPicker
           title="Main Color"
-          value={colorInfo.mainColor}
-          onChange={(e) => onChange("mainColor", e)}
+          value={colorInfo}
+          onChange={(e) => onChange(e)}
         />
-        <ColorPicker
+        {/* <ColorPicker
           title="Content Color"
           value={colorInfo.contentColor}
           onChange={(e) => onChange("contentColor", e)}
-        />
+        /> */}
       </div>
     </div>
   );

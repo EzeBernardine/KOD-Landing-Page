@@ -53,22 +53,21 @@ const CreateLandingPage = () => {
         .then((res: any) => {
           let data = res.data.data;
           setPage(data);
+          console.log(data);
         })
         .catch((e: any) => Alert.showError({ content: errorHandler(e) }));
       setLoading(false);
     };
     getLandingPage();
-  }, [authInfo, query]);
+  }, [authInfo, query?.pageId]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log({ ...landingPageData });
-
     const res = await axiosHandler({
-      method: "post",
-      url: LANDING_PAGE_URL + "pages",
+      method: "patch",
+      url: `${LANDING_PAGE_URL}pages/${query?.pageId}`,
       data: { ...landingPageData },
       clientID: authInfo?.clientId,
     }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
@@ -93,12 +92,12 @@ const CreateLandingPage = () => {
           items={[
             { title: "LANDING PAGE", link: "/landing-page" },
             { title: "LANDING PAGES", link: "/landing-page/landing-pages" },
-            { title: `${query.pageId}`, link: "" },
+            { title: `${query?.pageId}`, link: "" },
           ]}
         />
       ),
     });
-  }, [dispatch, history, query]);
+  }, [dispatch, history, query?.pageId]);
 
   return (
     <div>
@@ -139,7 +138,7 @@ const CreateLandingPage = () => {
                 disabled={loading}
                 loading={loading}
               >
-                Create Landing Page
+                Update Landing Page
               </Button>
             </form>
 

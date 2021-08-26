@@ -6,6 +6,5 @@ export const LandingPagePreview: React.FC = () => {
   const {
     state: { landingPageData },
   }: any = useContext(Store);
-//   console.log(landingPageData, "landingPageData");
   return <TemplateBuilder {...landingPageData} />;
 };

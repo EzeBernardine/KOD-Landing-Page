@@ -24,6 +24,8 @@ const LandingPages: React.FC = () => {
   }: any = useContext(Store);
   const history = useHistory();
 
+
+
   useEffect(() => {
     dispatch({
       type: actionTypes.setPageTile,

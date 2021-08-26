@@ -27,7 +27,6 @@ export default function ColorEditor({ page }: any) {
   }, [page]);
 
   const onChange = (key: string, color: string) => {
-    console.log(color, "color");
     dispatch({
       type: actionTypes.updateLandingPageInfo,
       payload: {

@@ -7,7 +7,7 @@ import {
 } from "kodobe-react-components";
 import { useHistory } from "react-router-dom";
 import { routeTo } from "../utils/network";
-import { GAMING_URL, LANDING_PAGE_URL } from "../utils/urls";
+import { LANDING_PAGE_URL } from "../utils/urls";
 import { useContext, useEffect, useState } from "react";
 import { actionTypes } from "../state-management/actions";
 import { Store } from "../state-management/storeComponent";
@@ -37,7 +37,7 @@ const LandingPages: React.FC = () => {
         />
       ),
     });
-  }, []);
+  }, [dispatch, history]);
 
   useEffect(() => {
     const getDefaultPages = async () => {
@@ -58,7 +58,7 @@ const LandingPages: React.FC = () => {
       setLoading(false);
     };
     getDefaultPages();
-  }, []);
+  }, [authInfo]);
 
   const createPage = () => {
     routeTo("/landing-page/create-landing-page", history);

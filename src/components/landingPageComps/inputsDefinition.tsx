@@ -3,7 +3,6 @@ import {
   Button,
   Divider,
   FormGroup,
-  IconTypes,
   Input,
   TextArea,
   Select,
@@ -39,37 +38,6 @@ export default function InputsDefinition({ page }: any) {
   const [inputs, setInputs]: any = useState([]);
   const [asMounted, setAsMounted] = useState(false);
 
-  const getGames = async () => {
-    const res = await axiosHandler({
-      method: "get",
-      url: GAMING_URL + "gameInstances",
-      clientID: authInfo?.clientId,
-    }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
-    if (res) {
-      setGames(
-        res.data._embedded.gameInstances.map((item: any) => ({
-          title: item.label,
-          value: item.id,
-        }))
-      );
-    }
-  };
-  const getLedgers = async () => {
-    const res = await axiosHandler({
-      method: "get",
-      url: BILLING_URL + "client-ledger",
-      clientID: authInfo?.clientId,
-    }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
-    if (res) {
-      setLedgers(
-        res.data._embedded.clientLedgers.map((item: any) => ({
-          title: item.name,
-          value: item.id,
-        }))
-      );
-    }
-  };
-
   //   const getObjectFromArray = (arrayValue: any) => {
   //     const resultObject: any = {};
   //     for (const i of arrayValue) {
@@ -77,6 +45,42 @@ export default function InputsDefinition({ page }: any) {
   //     }
   //     return resultObject;
   //   };
+
+  useEffect(() => {
+    const getGames = async () => {
+      const res = await axiosHandler({
+        method: "get",
+        url: GAMING_URL + "gameInstances",
+        clientID: authInfo?.clientId,
+      }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+      if (res) {
+        setGames(
+          res.data._embedded.gameInstances.map((item: any) => ({
+            title: item.label,
+            value: item.id,
+          }))
+        );
+      }
+    };
+    const getLedgers = async () => {
+      const res = await axiosHandler({
+        method: "get",
+        url: BILLING_URL + "client-ledger",
+        clientID: authInfo?.clientId,
+      }).catch((e: any) => Alert.showError({ content: errorHandler(e) }));
+      if (res) {
+        setLedgers(
+          res.data._embedded.clientLedgers.map((item: any) => ({
+            title: item.name,
+            value: item.id,
+          }))
+        );
+      }
+    };
+
+    getGames();
+    getLedgers();
+  }, [authInfo]);
 
   useEffect(() => {
     if (landingPageData) {
@@ -102,9 +106,9 @@ export default function InputsDefinition({ page }: any) {
       );
       setAsMounted(true);
     }
-    getGames();
-    getLedgers();
-  }, []);
+
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ page]);
 
   useEffect(() => {
     if (!asMounted) return;
@@ -128,7 +132,9 @@ export default function InputsDefinition({ page }: any) {
         templateId: null,
       },
     });
-  }, [game, pageSlug, pageTitle, redirectUrl, isReward, webHookUrl, inputs]);
+
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [game, pageSlug, pageTitle, redirectUrl, isReward, webHookUrl, inputs, dispatch,eligibility, asMounted,ledger, state]);
 
   const changeInputs = (e: any, i: number) => {
     setInputs(
@@ -280,7 +286,6 @@ export default function InputsDefinition({ page }: any) {
             checked ? setIsRewarded(true) : setIsRewarded(false);
             console.log(isReward);
           }}
-          defaultChecked={false}
         />
       </div>
       <Divider className="dividerCustom" />

@@ -36,7 +36,7 @@ const CreateLandingPage = () => {
         dispatch({ type: actionTypes.showLogo, payload: false });
       }
     };
-  }, []);
+  }, [dispatch, isOnboarding]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -79,7 +79,7 @@ const CreateLandingPage = () => {
         />
       ),
     });
-  }, []);
+  }, [dispatch, history]);
 
   return (
     <div>

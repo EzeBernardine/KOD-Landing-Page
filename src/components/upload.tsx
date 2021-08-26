@@ -2,7 +2,7 @@ import { Icon, IconTypes, Upload } from "kodobe-react-components";
 import { useContext, useState } from "react";
 import { Store } from "../state-management/storeComponent";
 import styles from "../styles/styles.module.scss";
-import { getClientId, getToken } from "../utils/network";
+import {  getToken } from "../utils/network";
 import { UPLOAD_URL } from "../utils/urls";
 
 interface Props {
@@ -35,7 +35,6 @@ export const UploadCustom = ({
 
   const {
     state: {
-      baseUrls: { baseUrl },
       authInfo
     },
   }: any = useContext(Store);

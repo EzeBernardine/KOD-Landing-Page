@@ -17,14 +17,12 @@ export default function ColorEditor({ page }: any) {
     if (landingPageData.uiFeatures.colorTheme) {
       setColorInfo(landingPageData.uiFeatures.colorTheme);
     }
-    console.log(page, "page");
-  }, []);
-  //   }, [landingPageData]);
+}, [landingPageData.uiFeatures.colorTheme]);
+// console.log(page, "page");
 
   useEffect(() => {
     if (page?.uiFeatures?.colorTheme) {
       setColorInfo(page?.uiFeatures?.colorTheme);
-      console.log("kkkkkkkkkkkkkkkkk");
     }
   }, [page]);
 

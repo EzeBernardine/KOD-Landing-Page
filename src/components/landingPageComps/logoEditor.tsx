@@ -22,10 +22,7 @@ export default function LogoEditor({ page }: any) {
     if (landingPageData.uiFeatures.backgroundImage) {
       setBgLogo(landingPageData.uiFeatures.backgroundImage);
     }
-    // if (landingPageData.uiFeatures.gameGraphics) {
-    //   setGameGraphics(landingPageData.uiFeatures.gameGraphics);
-    // }
-  }, []);
+  }, [landingPageData]);
 
   useEffect(() => {
     if (page?.uiFeatures?.logo || page?.uiFeatures?.backgroundImage) {
@@ -39,9 +36,12 @@ export default function LogoEditor({ page }: any) {
             ...(page?.uiFeatures?.backgroundImage && {backgroundImage: page?.uiFeatures?.backgroundImage})
           },
         },
+
       });
     }
-  }, [page]);
+
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, dispatch]);
 
   const onChange = (e: any) => {
     if (e.completed) {

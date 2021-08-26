@@ -28,7 +28,7 @@ export default function ColorEditor({ page }: any) {
     }
   }, [page]);
 
-  const onChange = (color: string) => {
+  const onChange = (key: string, color: string) => {
     console.log(color, "color");
     dispatch({
       type: actionTypes.updateLandingPageInfo,
@@ -36,12 +36,10 @@ export default function ColorEditor({ page }: any) {
         ...landingPageData,
         uiFeatures: {
           ...landingPageData.uiFeatures,
-          colorTheme: color,
-
-          //   colorTheme: {
-          //     ...landingPageData.uiFeatures.colorTheme,
-          //     [key]: color,
-          //   },
+          colorTheme: {
+            ...landingPageData.uiFeatures.colorTheme,
+            [key]: color,
+          },
         },
       },
     });
@@ -59,14 +57,14 @@ export default function ColorEditor({ page }: any) {
       <div className={`grid grid-auto-200 gap-1 ${styles.colorSelect}`}>
         <ColorPicker
           title="Main Color"
-          value={colorInfo}
-          onChange={(e) => onChange(e)}
+          value={colorInfo.mainColor}
+          onChange={(e) => onChange("mainColor", e)}
         />
-        {/* <ColorPicker
+        <ColorPicker
           title="Content Color"
           value={colorInfo.contentColor}
           onChange={(e) => onChange("contentColor", e)}
-        /> */}
+        />
       </div>
     </div>
   );

@@ -118,6 +118,10 @@ export default function InputsDefinition({ page }: any) {
         ...landingPageData,
         gameProps: {
           ...landingPageData.gameProps,
+          clientInfo: {
+              ...landingPageData.gameProps.clientInfo,
+              clientId: authInfo?.clientId
+          }
         },
         title: pageTitle,
         slug: pageSlug,

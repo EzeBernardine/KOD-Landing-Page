@@ -39,7 +39,7 @@ const CreateLandingPage = () => {
         dispatch({ type: actionTypes.showLogo, payload: false });
       }
     };
-  }, [dispatch,isOnboarding]);
+  }, [dispatch, isOnboarding]);
 
   useEffect(() => {
     const getLandingPage = async () => {
@@ -79,10 +79,7 @@ const CreateLandingPage = () => {
     setLoading(false);
   };
 
-  const goBack = () => {
-    routeTo("/landing-page", history);
-  };
-
+ 
   useEffect(() => {
     dispatch({
       type: actionTypes.setPageTile,
@@ -106,17 +103,6 @@ const CreateLandingPage = () => {
       ) : Object.keys(page).length ? (
         <div className={styles.customize}>
           <div className={styles.left}>
-            {!isOnboarding && (
-              <div className="flex justify-end">
-                <div className="flex align-center pointer" onClick={goBack}>
-                  <Icon
-                    iconType={IconTypes.ChevronLeft}
-                    color={colors.linkColor}
-                  />
-                  <div className="linkColor">Go Back</div>
-                </div>
-              </div>
-            )}
             <div className="spacer-20" />
             <div className={styles.header}>
               <h2>Setup your Landing Page</h2>
@@ -127,7 +113,7 @@ const CreateLandingPage = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <LogoEditor page={page}/>
+              <LogoEditor page={page} />
               <ColorEditor page={page} />
               <InputsDefinition page={page} />
 

@@ -64,10 +64,7 @@ const CreateLandingPage = () => {
     setLoading(false);
   };
 
-  const goBack = () => {
-    routeTo("/landing-page", history);
-  };
-
+ 
   useEffect(() => {
     dispatch({
       type: actionTypes.setPageTile,
@@ -76,6 +73,7 @@ const CreateLandingPage = () => {
           onNavigate={(e) => routeTo(e, history)}
           items={[
             { title: "LANDING PAGE", link: "/landing-page" },
+            { title: "LANDING PAGES", link: "/landing-page/landing-pages" },
             { title: "CREATE LANDING PAGE", link: "" },
           ]}
         />
@@ -87,17 +85,7 @@ const CreateLandingPage = () => {
     <div>
       <div className={styles.customize}>
         <div className={styles.left}>
-          {!isOnboarding && (
-            <div className="flex justify-end">
-              <div className="flex align-center pointer" onClick={goBack}>
-                <Icon
-                  iconType={IconTypes.ChevronLeft}
-                  color={colors.linkColor}
-                />
-                <div className="linkColor">Go Back</div>
-              </div>
-            </div>
-          )}
+      
           <div className="spacer-20" />
           <div className={styles.header}>
             <h2>Setup your Landing Page</h2>

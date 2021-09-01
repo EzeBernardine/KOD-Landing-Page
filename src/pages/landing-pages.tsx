@@ -10,6 +10,7 @@ import { routeTo } from "../utils/network";
 import { LANDING_PAGE_URL } from "../utils/urls";
 import { useContext, useEffect, useState } from "react";
 import { actionTypes } from "../state-management/actions";
+import Tabs from "../components/Tabs";
 import { Store } from "../state-management/storeComponent";
 import { errorHandler, axiosHandler } from "../utils/network";
 import { GetDate } from "../utils/factory";
@@ -23,8 +24,6 @@ const LandingPages: React.FC = () => {
     state: { authInfo },
   }: any = useContext(Store);
   const history = useHistory();
-
-
 
   useEffect(() => {
     dispatch({
@@ -66,8 +65,8 @@ const LandingPages: React.FC = () => {
     routeTo("/landing-page/create-landing-page", history);
   };
 
-  const editLangingPage = (pageId: string) => {
-    routeTo(`/landing-page/edit-landing-page/${pageId}`, history);
+  const viewLangingPage = (pageId: string) => {
+    routeTo(`/landing-page/single-landing-page/${pageId}`, history);
   };
 
   const getLandingPages = () => {
@@ -80,9 +79,9 @@ const LandingPages: React.FC = () => {
         GetDate(i.createdAt),
         <div
           className="linkColor pointer"
-          onClick={() => editLangingPage(i.pageId)}
+          onClick={() => viewLangingPage(i.pageId)}
         >
-          Update
+          View
         </div>,
       ]);
     }

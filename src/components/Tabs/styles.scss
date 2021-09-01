@@ -1,0 +1,108 @@
+@import "../../styles/variables";
+
+.TabList {
+  font-family: inherit;
+  padding-left: 0;
+  display: flex;
+  width: 100%;
+  background-color: white;
+  height: auto;
+  align-items: center;
+  justify-content: flex-start;
+  transition: background 0.3s ease-out;
+  overflow-x: auto;
+  scrollbar-color: #e3e3e3 transparent;
+  scrollbar-width: none;
+  border-bottom: 2px solid #f1f1f1;
+}
+.ListItem {
+  position: relative;
+  list-style: none;
+  padding: 10px 30px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05rem;
+  height: 100%;
+  background-color: transparent;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $textMainColor;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin: 0 10px;
+  :first-child {
+    margin-left: 0;
+  }
+  :last-child {
+    margin-right: 0;
+  }
+  &:hover {
+    :before {
+      background: #f1f1f1;
+      position: absolute;
+      content: "";
+      width: 100%;
+      bottom: -2px;
+      height: 2px;
+      left: 0%;
+      right: 0;
+    }
+  }
+  &.tab-list-active {
+    color: $linkColor;
+    &:before {
+      background: $linkColor;
+      position: absolute;
+      content: "";
+      width: 100%;
+      bottom: -2px;
+      height: 2px;
+      left: 0%;
+      right: 0;
+      z-index: 10;
+    }
+  }
+ 
+}
+
+.Animate {
+  @keyframes left {
+    0% {
+      width: 0;
+      opacity: 0;
+    }
+    50% {
+      width: 50%;
+      opacity: 0.4;
+    }
+    100% {
+      width: 0%;
+      opacity: 0;
+    }
+  }
+  ::after,
+  ::before {
+    content: "";
+    width: 50%;
+    height: 100%;
+    bottom: 0;
+    position: absolute;
+    opacity: 0.2;
+    background: #fafafa;
+  }
+  ::after {
+    border-radius: 0 4px 4px 0;
+    left: 50%;
+    animation: left 0.8s ease-in-out 1 alternate forwards;
+  }
+  ::before {
+    border-radius: 4px 0 0 4px;
+    right: 50%;
+    animation: left 0.8s ease-in-out 1 forwards;
+  }
+}
+.TabContent {
+  padding: 20px 0;
+}

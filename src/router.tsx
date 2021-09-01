@@ -2,7 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Index from "./pages";
 import LandingPage from "./pages/landing-pages";
 import CreateLandingPage from "./pages/create-landing-page";
-import EditLandingPage from "./pages/Edit-landing-page";
+import SingleLandingPage from "./pages/SingleLandingPage/single-landing-page";
 export default function Router() {
   return (
     <BrowserRouter>
@@ -19,10 +19,11 @@ export default function Router() {
           exact
           component={CreateLandingPage}
         />
+ 
         <Route
-          path="/landing-page/edit-landing-page/:pageId"
+          path="/landing-page/single-landing-page/:pageId"
           exact
-          component={EditLandingPage}
+          component={SingleLandingPage}
         />
       </Switch>
     </BrowserRouter>

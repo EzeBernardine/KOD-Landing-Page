@@ -1,18 +1,10 @@
-import { useHistory } from "react-router-dom";
-import {
-  Alert,
-  Spinner,
-  Table,
-  Breadcrumb,
-  DatePicker,
-} from "kodobe-react-components";
+import { Alert, Spinner, Table } from "kodobe-react-components";
 import { ContextCustomType } from " ../../../src/interfaces";
 import { Store } from "../../../src/state-management/storeComponent";
 import { useEffect, useContext } from "react";
-import { axiosHandler, errorHandler, routeTo } from "../../utils/network";
+import { axiosHandler, errorHandler } from "../../utils/network";
 import { useState } from "react";
-import { actionTypes } from "../../state-management/actions";
-import { BASE_URL, LANDING_PAGE_URL } from "../../utils/urls";
+import { LANDING_PAGE_URL } from "../../utils/urls";
 import _ from "lodash";
 import Pagination from "../../components/Pagination/pagination";
 

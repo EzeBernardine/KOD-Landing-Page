@@ -1,8 +1,6 @@
 import {
   Breadcrumb,
-  Button,
   Spinner,
-  Table,
   Alert,
 } from "kodobe-react-components";
 import { useHistory, useParams } from "react-router-dom";
@@ -13,7 +11,6 @@ import { actionTypes } from "../../state-management/actions";
 import Tabs from "../../components/Tabs";
 import { Store } from "../../state-management/storeComponent";
 import { errorHandler, axiosHandler } from "../../utils/network";
-import { GetDate } from "../../utils/factory";
 import UpdateLandingPage from "../Edit-landing-page";
 import Reports from "./reports";
 import Details from "./details";
@@ -44,7 +41,7 @@ const LandingPages: React.FC = () => {
         />
       ),
     });
-  }, [dispatch, history]);
+  }, [dispatch, history, query?.pageId]);
 
   useEffect(() => {
     const getDefaultPages = async () => {
@@ -65,7 +62,7 @@ const LandingPages: React.FC = () => {
       setLoading(false);
     };
     getDefaultPages();
-  }, [authInfo]);
+  }, [authInfo, query?.pageId]);
 
   return (
     <div>

@@ -1,11 +1,4 @@
-import {
-  Button,
-  Icon,
-  IconTypes,
-  Breadcrumb,
-  Alert,
-  Spinner,
-} from "kodobe-react-components";
+import { Button, Breadcrumb, Alert, Spinner } from "kodobe-react-components";
 import { useHistory, useParams } from "react-router-dom";
 import { routeTo, axiosHandler, errorHandler } from "../utils/network";
 import styles from "../styles/styles.module.scss";
@@ -14,7 +7,6 @@ import ColorEditor from "../components/landingPageComps/colorEditor";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../state-management/storeComponent";
 import { actionTypes } from "../state-management/actions";
-import { colors } from "../interfaces/data";
 import { LandingPagePreview } from "../components/landingPagePreview";
 import InputsDefinition from "../components/landingPageComps/inputsDefinition";
 import { LANDING_PAGE_URL } from "../utils/urls";
@@ -79,7 +71,6 @@ const CreateLandingPage = () => {
     setLoading(false);
   };
 
- 
   useEffect(() => {
     dispatch({
       type: actionTypes.setPageTile,

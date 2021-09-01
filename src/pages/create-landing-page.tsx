@@ -1,7 +1,5 @@
 import {
   Button,
-  Icon,
-  IconTypes,
   Breadcrumb,
   Alert,
 } from "kodobe-react-components";
@@ -13,7 +11,6 @@ import ColorEditor from "../components/landingPageComps/colorEditor";
 import { useContext, useEffect, useState } from "react";
 import { Store } from "../state-management/storeComponent";
 import { actionTypes } from "../state-management/actions";
-import { colors } from "../interfaces/data";
 import { LandingPagePreview } from "../components/landingPagePreview";
 import InputsDefinition from "../components/landingPageComps/inputsDefinition";
 import { LANDING_PAGE_URL } from "../utils/urls";

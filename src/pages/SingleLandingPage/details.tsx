@@ -1,5 +1,3 @@
-import { Spinner, Table } from "kodobe-react-components";
-import { GenerateID } from "../../utils/generateID";
 import { GetDate } from "../../utils/index";
 import "../../styles/cards.scss";
 

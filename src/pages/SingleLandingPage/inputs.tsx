@@ -99,7 +99,7 @@ export default function Inputs({ pageId }: any) {
               />
             </>
           ) : (
-            <span>No Inputs</span>
+            <span>No Inputs Found!</span>
           )}
         </div>
       )}

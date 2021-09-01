@@ -10,7 +10,6 @@ import { routeTo } from "../utils/network";
 import { LANDING_PAGE_URL } from "../utils/urls";
 import { useContext, useEffect, useState } from "react";
 import { actionTypes } from "../state-management/actions";
-import Tabs from "../components/Tabs";
 import { Store } from "../state-management/storeComponent";
 import { errorHandler, axiosHandler } from "../utils/network";
 import { GetDate } from "../utils/factory";

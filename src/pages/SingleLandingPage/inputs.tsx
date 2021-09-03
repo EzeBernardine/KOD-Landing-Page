@@ -1,4 +1,4 @@
-import { Alert, Spinner, Table } from "kodobe-react-components";
+import { Alert, Spinner, Table, Button } from "kodobe-react-components";
 import { ContextCustomType } from " ../../../src/interfaces";
 import { Store } from "../../../src/state-management/storeComponent";
 import { useEffect, useContext } from "react";
@@ -47,16 +47,15 @@ export default function Inputs({ pageId }: any) {
 
   const getTableBody = () => {
     const result: any = [];
-
+    let index = 0;
     for (let i of inputs) {
+      index += 1;
       result.push([
-        i?.key,
+        index,
         i?.label,
+        i?.key,
         i?.value,
-        i.pageId,
-        i?.user?.email,
-        i?.user?.phoneNumber,
-        i.userId,
+        i?.user?.email || i?.user?.phoneNumber || i?.user?.name,
       ]);
     }
 
@@ -65,6 +64,16 @@ export default function Inputs({ pageId }: any) {
 
   return (
     <div>
+      {inputs.length ? (
+        <>
+          <Button className="successColorBg" onClick={() => []}>
+            Export
+          </Button>
+          <div className="spacer-20"></div>
+          <div className="spacer-20"></div>
+        </>
+      ) : null}
+
       {loading ? (
         <Spinner />
       ) : (
@@ -72,15 +81,7 @@ export default function Inputs({ pageId }: any) {
           {inputs.length ? (
             <>
               <Table
-                headers={[
-                  "Key",
-                  "Label",
-                  "value",
-                  "PAGE ID",
-                  "EMAIL",
-                  "PHONE NUMBER",
-                  "USER ID",
-                ]}
+                headers={["S/N", "Label", "Key", "value", "USER"]}
                 data={loading ? [] : getTableBody()}
               />
               <Pagination

@@ -71,22 +71,7 @@ const CreateLandingPage = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    dispatch({
-      type: actionTypes.setPageTile,
-      payload: (
-        <Breadcrumb
-          onNavigate={(e) => routeTo(e, history)}
-          items={[
-            { title: "LANDING PAGE", link: "/landing-page" },
-            { title: "LANDING PAGES", link: "/landing-page/landing-pages" },
-            { title: `${query?.pageId}`, link: "" },
-          ]}
-        />
-      ),
-    });
-  }, [dispatch, history, query?.pageId]);
-
+  
   return (
     <div>
       {loading ? (

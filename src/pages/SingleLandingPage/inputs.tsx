@@ -55,7 +55,7 @@ export default function Inputs({ pageId }: any) {
         i?.label,
         i?.key,
         i?.value,
-        i?.user?.email || i?.user?.phoneNumber || i?.user?.name,
+        i?.user?.name || i?.user?.phoneNumber || i?.user?.email,
       ]);
     }
 

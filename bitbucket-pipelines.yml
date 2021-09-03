@@ -26,8 +26,8 @@ pipelines:
             - unset CI
             - npm run build
             - pip install awscli --upgrade --ignore-installed six
-            - aws s3 rm s3://client-admin-trivia-staging-02 --recursive
-            - aws s3 sync ./build s3://client-admin-trivia-staging-02
+            - aws s3 rm s3://client-admin-landing-page-staging-02 --recursive
+            - aws s3 sync ./build s3://client-admin-landing-page-staging-02
             - aws cloudfront create-invalidation --distribution-id E3DYE2AZUZSG29 --paths "/*"
 
     sandbox:

@@ -1,5 +1,5 @@
 {
-  "name": "trivia-client-admin",
+  "name": "client-admin-landing-page",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

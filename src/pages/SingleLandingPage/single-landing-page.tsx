@@ -36,12 +36,12 @@ const LandingPages: React.FC = () => {
           items={[
             { title: "LANDING PAGE", link: "/landing-page" },
             { title: "LANDING PAGES", link: "/landing-page/landing-pages" },
-            { title: `${query?.pageId}`, link: "" },
+            { title: `${landingPages?.slug|| ''}`, link: "" },
           ]}
         />
       ),
     });
-  }, [dispatch, history, query?.pageId]);
+  }, [dispatch, history, landingPages?.slug]);
 
   useEffect(() => {
     const getDefaultPages = async () => {

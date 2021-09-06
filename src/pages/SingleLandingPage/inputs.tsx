@@ -81,7 +81,7 @@ export default function Inputs({ pageId }: any) {
           {inputs.length ? (
             <>
               <Table
-                headers={["S/N", "Label", "Key", "value", "USER"]}
+                headers={["S/N", "Label", "Key", "Value", "User"]}
                 data={loading ? [] : getTableBody()}
               />
               <Pagination

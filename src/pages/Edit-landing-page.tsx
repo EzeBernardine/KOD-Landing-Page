@@ -1,5 +1,5 @@
 import { Button,  Alert, Spinner } from "kodobe-react-components";
-import {  useParams } from "react-router-dom";
+import {  useParams, useHistory } from "react-router-dom";
 import { routeTo, axiosHandler, errorHandler } from "../utils/network";
 import styles from "../styles/styles.module.scss";
 import LogoEditor from "../components/landingPageComps/logoEditor";
@@ -15,6 +15,8 @@ const CreateLandingPage = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState({});
   const query: any = useParams();
+const history = useHistory();
+
 
   const {
     state: { landingPageData, isOnboarding, authInfo },

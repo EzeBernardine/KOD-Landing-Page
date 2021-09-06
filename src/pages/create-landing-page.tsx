@@ -56,7 +56,7 @@ const CreateLandingPage = () => {
     if (res) {
       console.log(res);
       Alert.showSuccess({ content: "Landing Page Created Successfully" });
-      routeTo("/");
+      routeTo("/landing-page");
     }
     setLoading(false);
   };
